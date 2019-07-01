@@ -1,25 +1,17 @@
-//Trabalho Winsock -- 2019
-//4411 - Equipe Alpha
-//Ana Paula Schneider, Eduarda Basotti, Fernando Caletti, Kauê Portella, Gustavo Wingert e Henrique Schumacher.
-//Server
-
-
 #include <iostream>
+//#include <WS2tcpip.h>
 #include <string.h>
 #include <winsock2.h>
 #include <stdio.h>
-#include <string.h>
 #include <conio.h>
-
+#include <string.h>
+//#pragma comment (lib, "ws2_32.lib")
 
 using namespace std;
 
 #define NI_MAXHOST 1024
 #define NI_MAXSERV 1024
-#define timeout_in_seconds 1
 
-//Handle to change text color
-HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE); // For use of SetConsoleTextAttribute()
 
 int main(void)
 {
@@ -54,10 +46,6 @@ int main(void)
 	hint.sin_family = AF_INET;
 	hint.sin_port = htons(54000); //LOCAL PORT that will be connected!!!
 	hint.sin_addr.S_un.S_addr = INADDR_ANY;
-	
-	//Configure timeout
-	DWORD timeout = timeout_in_seconds * 1000;
-	setsockopt(listening, SOL_SOCKET, SO_RCVTIMEO, (const char*)&timeout, sizeof(timeout));
 
 	bind(listening, (sockaddr*)&hint, sizeof(hint));
 
@@ -128,7 +116,7 @@ int main(void)
     do
     {
     	char cmd = 0;
-    	printf("\nStart transmission? [Y/N]\n");
+    	printf("\nIniciar a transmissÃ£o? [Y/N]\n");
 		scanf("%c", &cmd);
 		if(cmd == 'Y') statusTx = 1;
 		else
@@ -148,63 +136,66 @@ int main(void)
 	//While loop: Check constantly the received data from the clients and print ir on the screen.
 	while(true)
 	{
-		ZeroMemory(buf, 4096); 
+		ZeroMemory(buf, 4096);
+		cout << "Client 1 time" << endl; 
 		//Receive data from client 1:
 		int bytesReceived1 = recv(clientSocket, buf, 4096, 0);	
 		//Check if any error has ocurred.	
 		if (bytesReceived1 == SOCKET_ERROR)
 		{
-			//Received: None. Don`t do nothing.
-			//cerr << "Received Nothing..." << endl;
-		}else if (bytesReceived1 == 0)
+			cerr << "Error in recv()" << endl;
+		}
+		if (bytesReceived1 == 0)
 		{
 			cerr << "Client disconnected " << endl;
 			break;
-		}else if(bytesReceived1 != -1)
+		}
+		if(bytesReceived1 != -1)
 		{
 			string(buf, 0, bytesReceived1);
 			buf[strlen(buf)] = '\0';
 			//Print data reived from client 1.
-			SetConsoleTextAttribute(console, 4);
 			printf("\nClient 1: %s", buf);
 		}
+		cout << "Client 2 time" << endl; 
 		//Receiving from Client 2:		
 		int bytesReceived2 = recv(client2Socket, buf, 4096, 0);
 		//Check if any error has ocurred.
 		if (bytesReceived2 == SOCKET_ERROR)
 		{
-			//Received: None. Don`t do nothing.
-			//cerr << "Received Nothing..." << endl;		
-		}else if (bytesReceived2 == 0)
+			cerr << "Error in recv(). Quitting" << endl;			
+		}
+		if (bytesReceived2 == 0)
 		{
 			cerr << "Client disconnected " << endl;
 			break;
-		}else if(bytesReceived2 != -1)
+		}
+		if(bytesReceived2 != -1)
  		{
  			string(buf, 0, bytesReceived2);
  			buf[strlen(buf)] = '\0';
  			//Print data reived from client 1.
- 			SetConsoleTextAttribute(console, 2);
  			printf("\nClient 2: %s", buf);
-		} 		
+		} 
+		cout << "Client 3 time" << endl; 		
  		//Receiving for cleint 3: 		
  		int bytesReceived3 = recv(client3Socket, buf, 4096, 0);
  		//Check if any error has ocurred.
 		if (bytesReceived3 == SOCKET_ERROR)
 		{
-			//Received: None. Don`t do nothing.
-			//cerr << "Received Nothing..." << endl;
-		}else if (bytesReceived3 == 0)
+			cerr << "Error in recv(). Quitting" << endl;
+		}
+		if (bytesReceived3 == 0)
 		{
 			cerr << "Client disconnected " << endl;
 			break;
-		}else if(bytesReceived3 != -1)
+		}
+		if(bytesReceived3 != -1)
  		{
  			string(buf, 0, bytesReceived3);
  			buf[strlen(buf)] = '\0';
  			//Print data reived from client 1.
- 			SetConsoleTextAttribute(console, 13);
- 			printf("%s", buf);
+ 			printf("\nClient 3: %s", buf);
 		}
 	}
 
@@ -221,5 +212,4 @@ int main(void)
 	return 0;
 
 }
-
 

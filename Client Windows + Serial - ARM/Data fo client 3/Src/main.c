@@ -1,3 +1,8 @@
+//Trabalho Winsock -- 2019
+//4411 - Equipe Alpha
+//Ana Paula Schneider, Eduarda Basotti, Fernando Caletti, Kauê Portella, Gustavo Wingert e Henrique Schumacher.
+//Server
+
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
@@ -54,8 +59,11 @@ volatile uint16_t water_level;			/*!<Used to simulate a value for the water tank
 uint16_t ValueCH1; 				/*!<Takes the ADC channel 1 value and use it to set the water_level*/
 int amount_of_water=0;			/*!<Used to convert the value of ADC channel 1 to the amount of water we have on the water tank*/
 int timer=0;					/*!Counter that makes the program wait 15 seconds before transmit the data*/
-uint8_t teste[50];
-uint8_t teste2[50];
+uint8_t aux[50];
+int string_size;
+int dado=-1;
+volatile uint8_t rxBuff = 0;
+volatile uint8_t startFlag = 0;
 
 /* USER CODE END PV */
 
@@ -109,6 +117,7 @@ int main(void)
   HAL_TIM_Base_Start_IT(&htim10);
 
   HAL_ADC_Start_DMA(&hadc1, &water_level, 1);
+  HAL_UART_Receive_IT(&huart2, &rxBuff, sizeof(rxBuff));
 
   HAL_UART_Init(&huart2);
 
@@ -212,17 +221,25 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	if (htim->Instance==TIM10)
 	{
 		timer++;
-		//sprintf((char*)teste, "\n\r Valor de tempo: %i", timer);
-		//HAL_UART_Transmit(&huart2, (char*) teste, strlen((char*) teste), 10);
 		if (timer==15)
 		{
-			sprintf((char*)teste2, "\n\r Quantidade de agua: %i L", amount_of_water);
-			HAL_UART_Transmit(&huart2, (char*) teste2, strlen((char*) teste2), 10);
-			//HAL_UART_Transmit(&huart2, amount_of_water, 1, 10);
-			timer=0;
+			//if(startFlag == 1)
+			//{
+				sprintf((char*)aux, "\n\rClient 3: Quantidade de agua: %iL", amount_of_water);
+				HAL_UART_Transmit(&huart2, (char*) aux, strlen((char*) aux), 10);
+				timer=0;
+			//}
 		}
 		__HAL_TIM_CLEAR_FLAG(&htim10, TIM_FLAG_UPDATE);
 	}
+}
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	if(rxBuff == 'Y')
+	{
+		startFlag = 1;
+	}
+	HAL_UART_Receive_IT(&huart2, &rxBuff, sizeof(rxBuff));
 }
 
 /* USER CODE END 4 */

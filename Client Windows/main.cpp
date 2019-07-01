@@ -1,3 +1,9 @@
+//Trabalho Winsock -- 2019
+//4411 - Equipe Alpha
+//Ana Paula Schneider, Eduarda Basotti, Fernando Caletti, Kauê Portella, Gustavo Wingert e Henrique Schumacher.
+//Windows Client
+
+
 #include <iostream>
 #include <string>
 #include <winsock2.h>

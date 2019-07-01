@@ -113,7 +113,7 @@ int main(void)
     	   WriteFile(hcom,dado, 1, &n, NULL); //escreve conteúdo do buffer no
            //arquivo/porta
     	   //-------------------------------------------------------------------
-           textcolor(15);
+           textcolor(10);
            if(c2>10) c2=1;
            gotoxy(c2++,22);
            printf("%c",*dado); //escreve dado enviado para o buffer na tela
