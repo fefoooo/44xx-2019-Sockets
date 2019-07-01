@@ -1,7 +1,6 @@
-# 44xx-2019-Sockets
-Exercício sockets com turmas do quarto ano 2019
+# TCP-IP-project---Micros-II---2019
+Project to create an TCP/IP server and 3 Clients for the Microprocessing Systems Class - 2019
 
-Cada equipe utiliza o fork criado com seu nome.
+Codes based on BarebonesServer and BarebonesClient of  Sloan Kelly, https://youtube.com/c/sloankelly.
 
-4411 - Equipes alfa, beta, gama e delta
-4422 - Equipes theta, lambda, phi e omega.
+
