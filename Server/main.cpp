@@ -156,16 +156,17 @@ int main(void)
 		{
 			//Received: None. Don`t do nothing.
 			//cerr << "Received Nothing..." << endl;
-		}else if (bytesReceived1 == 0)
+		}
+		if (bytesReceived1 == 0)
 		{
 			cerr << "Client disconnected " << endl;
-			break;
+			//break;
 		}else if(bytesReceived1 != -1)
 		{
 			string(buf, 0, bytesReceived1);
 			buf[strlen(buf)] = '\0';
 			//Print data reived from client 1.
-			SetConsoleTextAttribute(console, 4);
+			SetConsoleTextAttribute(console, 3);
 			printf("\nClient 1: %s", buf);
 		}
 		//Receiving from Client 2:		
@@ -175,17 +176,18 @@ int main(void)
 		{
 			//Received: None. Don`t do nothing.
 			//cerr << "Received Nothing..." << endl;		
-		}else if (bytesReceived2 == 0)
+		}
+		if (bytesReceived2 == 0)
 		{
 			cerr << "Client disconnected " << endl;
-			break;
+			//break;
 		}else if(bytesReceived2 != -1)
  		{
  			string(buf, 0, bytesReceived2);
  			buf[strlen(buf)] = '\0';
  			//Print data reived from client 1.
  			SetConsoleTextAttribute(console, 2);
- 			printf("\nClient 2: %s", buf);
+ 			printf("%s", buf);
 		} 		
  		//Receiving for cleint 3: 		
  		int bytesReceived3 = recv(client3Socket, buf, 4096, 0);
@@ -194,17 +196,18 @@ int main(void)
 		{
 			//Received: None. Don`t do nothing.
 			//cerr << "Received Nothing..." << endl;
-		}else if (bytesReceived3 == 0)
+		}
+		if (bytesReceived3 == 0)
 		{
 			cerr << "Client disconnected " << endl;
-			break;
+			//break;
 		}else if(bytesReceived3 != -1)
  		{
  			string(buf, 0, bytesReceived3);
  			buf[strlen(buf)] = '\0';
  			//Print data reived from client 1.
  			SetConsoleTextAttribute(console, 13);
- 			printf("%s", buf);
+ 			printf("\nClient 3: %s", buf);
 		}
 	}
 
